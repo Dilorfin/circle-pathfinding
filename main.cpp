@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "codewars_structs.hpp"
+#include "a-star/graph.hpp"
 
 int main() try
 {
@@ -14,6 +15,11 @@ int main() try
 	const std::vector circles = {
 		Circle(50, 50, 10)
 	};
+
+	Graph test({{10, 10},{0, 1},{10.5, 10}});
+	test.addVertex({0, 15});
+	auto t = test.getWeight(1, 0);
+	test.debugDisplay();
 
 	sf::RenderWindow window(sf::VideoMode(864, 724), "Circle Path-finding", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
