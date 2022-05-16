@@ -2,9 +2,20 @@
 
 #include <SFML/Graphics.hpp>
 
+#include "codewars_structs.hpp"
+
 int main() try
 {
-	sf::RenderWindow window(sf::VideoMode(864, 724), "SFML test", sf::Style::Close);
+	Point startPoint { 10, 10 };
+	startPoint.color = sf::Color::Red;
+	Point endPoint { 100, 100 };
+	endPoint.color = sf::Color::Green;
+
+	const std::vector circles = {
+		Circle(50, 50, 10)
+	};
+
+	sf::RenderWindow window(sf::VideoMode(864, 724), "Circle Path-finding", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
 
@@ -21,6 +32,14 @@ int main() try
 		}
 
 		window.clear();
+
+		for (const auto & circle : circles)
+		{
+			window.draw(circle);
+		}
+
+		window.draw(startPoint);
+		window.draw(endPoint);
 
 		window.display();
 	}
