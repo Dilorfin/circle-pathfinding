@@ -23,16 +23,16 @@ add_executable(${PROJECT_TITLE} ${SOURCE_LIST})
 
 target_link_libraries(${PROJECT_TITLE} ${GENERAL_DEPENDENCIES}) # SFML::<component>
 
-#if(BUILD_TESTS)
-#	find_package(doctest REQUIRED)
-#	message("-- Found doctest in ${doctest_DIR}")
-#
-#	set(SOURCE_LIST_WO_MAIN ${SOURCE_LIST})
-#	list(FILTER SOURCE_LIST_WO_MAIN EXCLUDE REGEX ".*main\.cpp")
-#
-#	enable_testing()
-#	add_subdirectory(.tests)
-#endif(BUILD_TESTS)
+if(BUILD_TESTS)
+	find_package(doctest REQUIRED)
+	message("-- Found doctest in ${doctest_DIR}")
+
+	set(SOURCE_LIST_WO_MAIN ${SOURCE_LIST})
+	list(FILTER SOURCE_LIST_WO_MAIN EXCLUDE REGEX ".*main\.cpp")
+
+	enable_testing()
+	add_subdirectory(.tests)
+endif(BUILD_TESTS)
 
 # Prettify IDEs Projects
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
