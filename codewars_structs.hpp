@@ -1,8 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <vector>
-
-#include "a-star/graph.hpp"
 
 struct Point final : sf::Drawable
 {
@@ -47,13 +44,3 @@ protected:
 		target.draw(circle);
 	}
 };
-
-inline double distance(const Point& a, const Point& b)
-{
-	return std::sqrt(std::pow(a.x - b.x, 2) + std::pow(a.y - b.y, 2));
-}
-inline bool equal(const Point& a, const Point& b)
-{
-	constexpr double max_error = 1e-8;
-	return distance(a, b) <= max_error;
-}

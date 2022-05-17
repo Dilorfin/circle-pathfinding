@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "../codewars_structs.hpp"
+#include "math.hpp"
 
 class Graph final
 {

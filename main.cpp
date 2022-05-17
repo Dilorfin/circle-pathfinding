@@ -4,6 +4,7 @@
 
 #include "codewars_structs.hpp"
 #include "a-star/graph.hpp"
+#include "a-star/pathfinding.hpp"
 
 int main() try
 {
