@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "a-star/graph.hpp"
+
 struct Point final : sf::Drawable
 {
 	// shouldn't be modified... or finally replaced with undef in codewars
@@ -48,7 +50,7 @@ protected:
 
 inline double distance(const Point& a, const Point& b)
 {
-	return std::sqrt(std::pow(a.x-b.x, 2)+std::pow(a.y-b.y, 2));
+	return std::sqrt(std::pow(a.x - b.x, 2) + std::pow(a.y - b.y, 2));
 }
 inline bool equal(const Point& a, const Point& b)
 {
@@ -56,7 +58,8 @@ inline bool equal(const Point& a, const Point& b)
 	return distance(a, b) <= max_error;
 }
 
-double shortest_path_length(const Point& startPoint, const Point& endPoint, const std::vector<Circle>& circles)
+// for codewars kata Graph should be init in shortest_path_length function
+double shortest_path_length(const Point& startPoint, const Point& endPoint, const std::vector<Circle>& circles, Graph& graph)
 {
 	// return length of shortest route from a to b, avoiding the interiors of the circles in c
 	return 0;

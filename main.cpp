@@ -16,6 +16,11 @@ int main() try
 		Circle(50, 50, 10)
 	};
 
+	Graph graph;
+
+	const double result = shortest_path_length(startPoint, endPoint, circles, graph);
+	std::cout << "shortest_path_length: " << result << std::endl;
+
 	sf::RenderWindow window(sf::VideoMode(864, 724), "Circle Path-finding", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
