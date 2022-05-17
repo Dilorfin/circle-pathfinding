@@ -19,7 +19,7 @@ public:
 	{
 		for (int i = 0; i < this->vertexes.size(); i++)
 		{
-			for (int j = i+1; j < this->vertexes.size(); j++)
+			for (int j = i + 1; j < this->vertexes.size(); j++)
 			{
 				if (equal(this->vertexes[i], this->vertexes[j]))
 					throw std::exception("fuck this boolshit");
@@ -31,8 +31,8 @@ public:
 	void setWeight(const size_t x, const size_t y, const double weight)
 	{
 		assert(x != y);
-		assert(x<matrix.size());
-		assert(y<matrix[x].size());
+		assert(x < matrix.size());
+		assert(y < matrix[x].size());
 
 		matrix[x][y] = weight;
 		matrix[y][x] = weight;
@@ -40,8 +40,8 @@ public:
 
 	[[nodiscard]] double getWeight(const size_t x, const size_t y) const
 	{
-		assert(x<matrix.size());
-		assert(y<matrix[x].size());
+		assert(x < matrix.size());
+		assert(y < matrix[x].size());
 
 		return matrix[x][y];
 	}
