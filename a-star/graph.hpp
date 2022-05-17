@@ -9,22 +9,22 @@ class Graph final
 private:
 	std::vector<std::vector<double>> matrix;
 
-	std::vector<Point> points;
+	std::vector<Point> vertexes;
 public:
 
 	Graph() = default;
 
 	explicit Graph(std::vector<Point> points)
-		: points(std::move(points))
+		: vertexes(std::move(points))
 	{
-		for (int i = 0; i < this->points.size(); i++)
+		for (int i = 0; i < this->vertexes.size(); i++)
 		{
-			for (int j = i+1; j < this->points.size(); j++)
+			for (int j = i+1; j < this->vertexes.size(); j++)
 			{
-				if (equal(this->points[i], this->points[j]))
+				if (equal(this->vertexes[i], this->vertexes[j]))
 					throw std::exception("fuck this boolshit");
 			}
-			matrix.emplace_back(this->points.size());
+			matrix.emplace_back(this->vertexes.size());
 		}
 	}
 
@@ -46,16 +46,33 @@ public:
 		return matrix[x][y];
 	}
 
+	[[nodiscard]] size_t size() const
+	{
+		return matrix.size();
+	}
+
 	bool addVertex(const Point& point)
 	{
-		for (const auto& value : points)
+		for (const auto& value : vertexes)
 		{
 			if (equal(point, value))
 				return false;
 		}
-		points.push_back(point);
+		vertexes.push_back(point);
 		this->addVertex();
 		return true;
+	}
+
+	[[nodiscard]] Point getVertex(const size_t ind) const
+	{
+		assert(ind < vertexes.size());
+
+		return vertexes[ind];
+	}
+
+	[[nodiscard]] const std::vector<Point>& getVertexes() const
+	{
+		return vertexes;
 	}
 
 	void debugDisplay() const
@@ -82,6 +99,6 @@ private:
 		{
 			row.emplace_back();
 		}
-		matrix.emplace_back(points.size());
+		matrix.emplace_back(vertexes.size());
 	}
 };
