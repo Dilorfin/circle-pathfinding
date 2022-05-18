@@ -43,11 +43,10 @@ inline double arcLength(const Circle& circle, const Point& a, const Point& b)
 	return angle * circle.r;
 }
 
-inline bool checkLine(const std::vector<Circle>& circles, const Point& a, const Point& b)
+inline bool lineExists(const Point& a, const Point& b, const std::vector<Circle>& circles)
 {
 	const Point v = vector(a, b);
 
-	
 	for (const auto& circle : circles)
 	{
 		const double u = ((circle.ctr.x - a.x) * (b.x - a.x) + (circle.ctr.y - a.y) * (b.y - a.y)) / (v.x * v.x + v.y * v.y);
