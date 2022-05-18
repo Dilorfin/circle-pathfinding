@@ -19,3 +19,4 @@ endfunction()
 
 ct_add_test(test1 test1.cpp)
 ct_add_test(graph-tests graph-tests.cpp)
+ct_add_test(pathfinding-tests pathfinding-tests.cpp)
