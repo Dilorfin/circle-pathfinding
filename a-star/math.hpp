@@ -76,7 +76,9 @@ std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)
 	return result;
 }
 
-std::vector<Point> tangentLines(Point a, Circle b)
+std::vector<Point> tangentLines(const Point& a, const Circle& b)
 {
+	https://stackoverflow.com/a/69433855/8885358
+
 	return {};
 }
