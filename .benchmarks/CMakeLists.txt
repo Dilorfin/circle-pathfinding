@@ -18,4 +18,4 @@ function(ct_add_bechmark target SOURCES)
 	#add_test(NAME ${target} COMMAND ${target} WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 endfunction()
 
-ct_add_bechmark(test1 test1.cpp)
+ct_add_bechmark(benchmark1 test1.cpp)
