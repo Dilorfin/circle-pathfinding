@@ -19,3 +19,4 @@ function(ct_add_bechmark target SOURCES)
 endfunction()
 
 ct_add_bechmark(benchmark1 test1.cpp)
+ct_add_bechmark("line-exists" "line-exists.cpp")

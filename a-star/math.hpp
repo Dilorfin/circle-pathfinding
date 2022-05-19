@@ -43,23 +43,17 @@ inline double arcLength(const Circle& circle, const Point& a, const Point& b)
 	return angle * circle.r;
 }
 
+// lineExists_resharper_v4
 inline bool lineExists(const Point& a, const Point& b, const std::vector<Circle>& circles)
 {
 	const Point v = vector(a, b);
-
-	for (const auto& circle : circles)
-	{
-		const double u = ((circle.ctr.x - a.x) * (b.x - a.x) + (circle.ctr.y - a.y) * (b.y - a.y)) / (v.x * v.x + v.y * v.y);
+	return std::all_of(circles.begin(), circles.end(), [&](const Circle& circle) {
+		const double u = ((circle.ctr.x - a.x) * v.x + (circle.ctr.y - a.y) * v.y) / (v.x * v.x + v.y * v.y);
 		const double temp = std::clamp(u, 0., 1.);
-		const Point E(a.x + temp * (b.x - a.x), a.y + temp * (b.y - a.y));
-		const double d = length({E.x - circle.ctr.x, E.y- circle.ctr.y});
-		if(d < circle.r)
-		{
-			return false;
-		}
-	}
-
-	return true;
+		const Point E(a.x + temp * v.x, a.y + temp * v.y);
+		const double d = length(vector(circle.ctr, E));
+		return d >= circle.r;
+	});
 }
 
 std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)

@@ -127,7 +127,7 @@ TEST_CASE("general math tests")
 	}
 }
 
-TEST_CASE("check line tests")
+TEST_CASE("line exists tests")
 {
 	SUBCASE("line not exist one circle")
 	{
