@@ -25,7 +25,7 @@ inline double length(const Point& a)
 
 inline double dot(const Point& a, const Point& b)
 {
-	return a.x*b.x + a.y*b.y;
+	return a.x * b.x + a.y * b.y;
 }
 
 inline double angleBetweenVectors(const Point& a, const Point& b)
@@ -37,9 +37,9 @@ inline double arcLength(const Circle& circle, const Point& a, const Point& b)
 {
 	const Point ca = vector(circle.ctr, a);
 	const Point cb = vector(circle.ctr, b);
-	
+
 	const double angle = angleBetweenVectors(ca, cb);
-	
+
 	return angle * circle.r;
 }
 
@@ -56,13 +56,13 @@ inline bool lineExists(const Point& a, const Point& b, const std::vector<Circle>
 	});
 }
 
-std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)
+inline std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)
 {
 	std::vector<std::pair<Point, Point>> result;
 
 	// straight
 
-	if (distance(a.ctr, b.ctr) - (a.r+b.r) <= max_error)
+	if (distance(a.ctr, b.ctr) - (a.r + b.r) <= max_error)
 		return result;
 
 	// diagonal
@@ -70,28 +70,16 @@ std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)
 	return result;
 }
 
-//https://stackoverflow.com/a/69433855/8885358
-std::vector<Point> tangentLines(const Point& A, const Circle& circle)
+inline std::vector<Point> tangentLines(const Point& a, const Circle& circle)
 {
-	const Point C = circle.ctr;
-	const double R = circle.r;
+	const double ac = distance(a, circle.ctr);
+	const double alpha = (a.y < circle.ctr.y ? -1 : 1) * std::acos((a.x - circle.ctr.x) / ac);
+	const double theta = std::acos(circle.r / ac);
+	const double phi1 = alpha + theta;
+	const double phi2 = alpha - theta;
 
-	const double t = R * R - C.x * C.x - A.x * C.x;
-	const double p = C.y - A.y;
-
-	const double a = std::pow(C.x - A.x, 2) + p * p;
-	const double b = 2 * t * (C.x - A.x) - 2 * p * p * C.x;
-	const double c = t * t - p * p * R * R + p * p * C.x * C.x;
-
-	const double D = b * b - 4 * a * c;
-
-	const double x1 = (-b + std::sqrt(D)) / (2 * a);
-	const double x2 = (-b - std::sqrt(D)) / (2 * a);
-
-	double y1 = C.y - std::sqrt(R * R - std::pow(C.x - x1, 2));
-	double y2 = C.y - std::sqrt(R * R - std::pow(C.x - x2, 2));
-
-	y2 = std::abs(C.y - A.y) <= max_error ? -y2 : y2;
-
-	return { {x1,y1}, {x2, y2} };
+	return {
+		{ circle.ctr.x + circle.r * std::cos(phi1), circle.ctr.y + circle.r * std::sin(phi1) },
+		{ circle.ctr.x + circle.r * std::cos(phi2), circle.ctr.y + circle.r * std::sin(phi2) }
+	};
 }
