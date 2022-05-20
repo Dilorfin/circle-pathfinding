@@ -196,3 +196,63 @@ TEST_CASE("line exists tests")
 		CHECK_FALSE(lineExists(a, b, circles));
 	}
 }
+
+TEST_CASE("tangent lines")
+{
+	SUBCASE("test 1")
+	{
+		const Point a(0, 0);
+		const Circle circle(10, 10, 10);
+
+		const std::vector<Point> res = tangentLines(a, circle);
+
+		REQUIRE(res.size() == 2);
+		CHECK(10 == doctest::Approx(res[0].x).epsilon(max_error));
+		CHECK(0 == doctest::Approx(res[0].y).epsilon(max_error));
+		CHECK(0 == doctest::Approx(res[1].x).epsilon(max_error));
+		CHECK(10 == doctest::Approx(res[1].y).epsilon(max_error));
+	}
+
+	/*SUBCASE("test 2")
+	{
+		const Point a(44.643, 0);
+		const Circle circle(0, 0, 25);
+
+		const std::vector<Point> res = tangentLines(a, circle);
+
+		REQUIRE(res.size() == 2);
+		CHECK(14 == doctest::Approx(res[0].x).epsilon(max_error));
+		CHECK(20.712 == doctest::Approx(res[0].y).epsilon(max_error));
+		CHECK(14 == doctest::Approx(res[1].x).epsilon(max_error));
+		CHECK(-20.712 == doctest::Approx(res[1].y).epsilon(max_error));
+	}*/
+
+	SUBCASE("test 3")
+	{
+		const Point a(31.25, 0);
+		const Circle circle(0, 0, 25);
+
+		const std::vector<Point> res = tangentLines(a, circle);
+
+		REQUIRE(res.size() == 2);
+		CHECK(20 == doctest::Approx(res[0].x).epsilon(max_error));
+		CHECK(-15 == doctest::Approx(res[0].y).epsilon(max_error));
+		CHECK(20 == doctest::Approx(res[1].x).epsilon(max_error));
+		CHECK(15 == doctest::Approx(res[1].y).epsilon(max_error));
+	}
+	
+
+	SUBCASE("test 4")
+	{
+		const Point a(0, 31.25);
+		const Circle circle(0, 0, 25);
+
+		const std::vector<Point> res = tangentLines(a, circle);
+
+		REQUIRE(res.size() == 2);
+		CHECK(15 == doctest::Approx(res[0].x).epsilon(max_error));
+		CHECK(-20 == doctest::Approx(res[0].y).epsilon(max_error));
+		CHECK(-15 == doctest::Approx(res[1].x).epsilon(max_error));
+		CHECK(-20 == doctest::Approx(res[1].y).epsilon(max_error));
+	}
+}

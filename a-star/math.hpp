@@ -70,9 +70,28 @@ std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)
 	return result;
 }
 
-std::vector<Point> tangentLines(const Point& a, const Circle& b)
+//https://stackoverflow.com/a/69433855/8885358
+std::vector<Point> tangentLines(const Point& A, const Circle& circle)
 {
-	https://stackoverflow.com/a/69433855/8885358
+	const Point C = circle.ctr;
+	const double R = circle.r;
 
-	return {};
+	const double t = R * R - C.x * C.x - A.x * C.x;
+	const double p = C.y - A.y;
+
+	const double a = std::pow(C.x - A.x, 2) + p * p;
+	const double b = 2 * t * (C.x - A.x) - 2 * p * p * C.x;
+	const double c = t * t - p * p * R * R + p * p * C.x * C.x;
+
+	const double D = b * b - 4 * a * c;
+
+	const double x1 = (-b + std::sqrt(D)) / (2 * a);
+	const double x2 = (-b - std::sqrt(D)) / (2 * a);
+
+	double y1 = C.y - std::sqrt(R * R - std::pow(C.x - x1, 2));
+	double y2 = C.y - std::sqrt(R * R - std::pow(C.x - x2, 2));
+
+	y2 = std::abs(C.y - A.y) <= max_error ? -y2 : y2;
+
+	return { {x1,y1}, {x2, y2} };
 }
