@@ -1,11 +1,10 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest/doctest.h>
 #include "../a-star/graph.hpp"
+#include "../a-star/math.hpp"
 
 TEST_CASE("graph tests")
 {
-	constexpr double max_error = 1e-8;
-
 	const std::vector<Point> points = { {10, 10},{0, 1},{10.5, 10} };
 	SUBCASE("graph size should be equal to number of inserted points (in constructor)")
 	{
