@@ -317,21 +317,8 @@ TEST_CASE("tangent circle and circle")
 		const Circle B(-7.9765714285714,-3.4183809523809, 40.6);
 
 		const std::vector<std::pair<Point, Point>> res = tangentLines(A, B);
-
-		const std::vector<std::pair<Point, Point>> expected = {
-			{ Point(-29.919406502119, -4.1217447488511), Point(-27.6401012901777, -12.8670850842158) },
-			{ Point(-21.4112498180623, -20.3583924835027), Point(-27.3048044750418, -13.5069529752375) }
-		};
-
-		REQUIRE(res.size() == expected.size());
-
-		for (const auto& expectedPair : expected)
-		{
-			CHECK(std::any_of(res.begin(), res.end(), [&](const std::pair<Point, Point>& p)->bool {
-				return (equal(p.first, expectedPair.first) && equal(p.second, expectedPair.second))
-					|| (equal(p.first, expectedPair.second) && equal(p.second, expectedPair.first));
-			}));
-		}
+		
+		REQUIRE(0 == res.size());
 	}
 
 	SUBCASE("test 3")
