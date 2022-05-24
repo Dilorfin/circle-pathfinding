@@ -197,7 +197,7 @@ TEST_CASE("line exists tests")
 	}
 }
 
-TEST_CASE("tangent lines")
+TEST_CASE("tangent line and circle")
 {
 	SUBCASE("test 1")
 	{
@@ -281,5 +281,128 @@ TEST_CASE("tangent lines")
 		CHECK(-2502.0501176288226 == doctest::Approx(res[0].y).epsilon(max_error));
 		CHECK(1028.5529219844996 == doctest::Approx(res[1].x).epsilon(max_error));
 		CHECK(-2497.933384069775 == doctest::Approx(res[1].y).epsilon(max_error));
+	}
+}
+
+TEST_CASE("tangent circle and circle")
+{
+	SUBCASE("test 1")
+	{
+		const Circle A(6.6125714285714,1.306380952381, 1);
+		const Circle B(-7.9765714285714,-3.4183809523809, 5.6);
+
+		const std::vector<std::pair<Point, Point>> res = tangentLines(A, B);
+
+		const std::vector<std::pair<Point, Point>> expected = {
+			{ Point(-4.126273966625, -7.4847318293358), Point(5.9250183103665, 2.0325150375517) },
+			{ Point(-7.2410558456096, 2.1331068506506), Point(6.4812293601853, 0.3150438446966) },
+			{ Point(-8.0243947890834, 2.1814148408748), Point(6.6040315427657, 2.3063444868914) },
+			{ Point(-4.7325753397895, -7.9830813123108), Point(7.1918564444255, 0.4912558881075) }
+		};
+
+		REQUIRE(res.size() == expected.size());
+
+		for (const auto& expectedPair : expected)
+		{
+			CHECK(std::any_of(res.begin(), res.end(), [&](const std::pair<Point, Point>& p)->bool {
+				return (equal(p.first, expectedPair.first) && equal(p.second, expectedPair.second))
+					|| (equal(p.first, expectedPair.second) && equal(p.second, expectedPair.first));
+			}));
+		}
+	}
+
+	SUBCASE("test 2")
+	{
+		const Circle A(6.6125714285714,1.306380952381, 1.6);
+		const Circle B(-7.9765714285714,-3.4183809523809, 40.6);
+
+		const std::vector<std::pair<Point, Point>> res = tangentLines(A, B);
+		
+		REQUIRE(0 == res.size());
+	}
+
+	SUBCASE("test 3")
+	{
+		const Circle A(0, -25, 7);
+		const Circle B(25, 0, 7);
+
+		const std::vector<std::pair<Point, Point>> res = tangentLines(A, B);
+
+		const std::vector<std::pair<Point, Point>> expected = {
+			{ Point(27.5851512626079, -6.5051512626072), Point(-2.5851512626088, -18.4948487373905) },
+			{ Point(18.494848737393, 2.5851512626078), Point(6.5051512626096, -27.5851512626088) },
+			{ Point(20.0502525316964, 4.9497474683026), Point(-4.9497474683063, -20.0502525316948) },
+			{ Point(29.9497474683024, -4.9497474683035), Point(4.9497474683051, -29.9497474683063) }
+		};
+
+		REQUIRE(res.size() == expected.size());
+
+		for (const auto& expectedPair : expected)
+		{
+			CHECK(std::any_of(res.begin(), res.end(), [&](const std::pair<Point, Point>& p)->bool {
+				return (equal(p.first, expectedPair.first) && equal(p.second, expectedPair.second))
+					|| (equal(p.first, expectedPair.second) && equal(p.second, expectedPair.first));
+			}));
+		}
+	}
+
+	SUBCASE("test 4")
+	{
+		const Circle A(-23.788981056404,-12.286414432, 1.6);
+		const Circle B(9.3681447619048,6.1178019047619, 42);
+
+		const std::vector<std::pair<Point, Point>> res = tangentLines(A, B);
+
+		REQUIRE(res.size() == 0);
+	}
+
+	SUBCASE("test 5")
+	{
+		const Circle A(0, 0, 0.3);
+		const Circle B(19, 0, 0.3);
+
+		const std::vector<std::pair<Point, Point>> res = tangentLines(A, B);
+
+		const std::vector<std::pair<Point, Point>> expected = {
+			{ Point(18.9905263157841, -0.2998503784958), Point(0.0094736842052, 0.2998503781581) },
+			{ Point(18.9905263157841, 0.2998503784958), Point(0.0094736842052, -0.2998503781581) },
+			{ Point(19.0000000000053, 0.2999999999209), Point(0.0000000000053, 0.2999999995825) },
+			{ Point(19.0000000000053, -0.2999999999209), Point(0.0000000000053, -0.2999999995825) }
+		};
+
+		REQUIRE(res.size() == expected.size());
+
+		for (const auto& expectedPair : expected)
+		{
+			CHECK(std::any_of(res.begin(), res.end(), [&](const std::pair<Point, Point>& p)->bool {
+				return (equal(p.first, expectedPair.first) && equal(p.second, expectedPair.second))
+					|| (equal(p.first, expectedPair.second) && equal(p.second, expectedPair.first));
+			}));
+		}
+	}
+
+	SUBCASE("test 6")
+	{
+		const Circle A(18.9990994611522,-13.2036074219616, 1);
+		const Circle B(0.4065104827304,-0.4580090951249, 2);
+
+		const std::vector<std::pair<Point, Point>> res = tangentLines(A, B);
+
+		const std::vector<std::pair<Point, Point>> expected = {
+			{ Point(18.3289399254399, -13.9458245038818), Point(1.7468295541569, 1.0264250687176) },
+			{ Point(18.4708264328064, -14.0526819814218), Point(-0.6500355739629, -2.1561582140481) },
+			{ Point(19.6005522629483, -12.4046990872875), Point(1.6094160863248, 1.1398075742264) },
+			{ Point(19.449719676513, -12.3108916656829), Point(-0.4947299479927, -2.2434406076855) }
+		};
+
+		REQUIRE(res.size() == expected.size());
+
+		for (const auto& expectedPair : expected)
+		{
+			CHECK(std::any_of(res.begin(), res.end(), [&](const std::pair<Point, Point>& p)->bool {
+				return (equal(p.first, expectedPair.first) && equal(p.second, expectedPair.second))
+					|| (equal(p.first, expectedPair.second) && equal(p.second, expectedPair.first));
+			}));
+		}
 	}
 }

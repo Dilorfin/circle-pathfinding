@@ -56,16 +56,48 @@ inline bool lineExists(const Point& a, const Point& b, const std::vector<Circle>
 	});
 }
 
-inline std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)
+inline std::vector<std::pair<Point, Point>> tangentLines(const Circle& a, const Circle& b)
 {
 	std::vector<std::pair<Point, Point>> result;
 
+	if (1 - std::abs(a.r - b.r) / distance(a.ctr, b.ctr) <= max_error)
+		return result;
+
 	// straight
+	const double alpha = (a.ctr.y > b.ctr.y ? -1 : 1) * std::acos((b.ctr.x - a.ctr.x) / distance(a.ctr, b.ctr));
+
+	const double thetaStraight = std::acos((a.r - b.r) / distance(a.ctr, b.ctr));
+
+	const double phiStraight0 = alpha + thetaStraight;
+	result.emplace_back(
+		Point(a.ctr.x + a.r * std::cos(phiStraight0), a.ctr.y + a.r * std::sin(phiStraight0)),
+		Point(b.ctr.x + b.r * std::cos(phiStraight0), b.ctr.y + b.r * std::sin(phiStraight0))
+	);
+
+	const double phiStraight1 = alpha - thetaStraight;
+	result.emplace_back(
+		Point(a.ctr.x + a.r * std::cos(phiStraight1), a.ctr.y + a.r * std::sin(phiStraight1)),
+		Point(b.ctr.x + b.r * std::cos(phiStraight1), b.ctr.y + b.r * std::sin(phiStraight1))
+	);
 
 	if (distance(a.ctr, b.ctr) - (a.r + b.r) <= max_error)
 		return result;
 
 	// diagonal
+
+	const double thetaDiagonal = std::acos((a.r + b.r) / distance(a.ctr, b.ctr));
+
+	const double phiDiagonal0 = alpha + thetaDiagonal;
+	result.emplace_back(
+		Point(a.ctr.x + a.r * std::cos(phiDiagonal0), a.ctr.y + a.r * std::sin(phiDiagonal0)),
+		Point(b.ctr.x - b.r * std::cos(phiDiagonal0), b.ctr.y - b.r * std::sin(phiDiagonal0))
+	);
+
+	const double phiDiagonal1 = alpha - thetaDiagonal;
+	result.emplace_back(
+		Point(a.ctr.x + a.r * std::cos(phiDiagonal1), a.ctr.y + a.r * std::sin(phiDiagonal1)),
+		Point(b.ctr.x - b.r * std::cos(phiDiagonal1), b.ctr.y - b.r * std::sin(phiDiagonal1))
+	);
 
 	return result;
 }
