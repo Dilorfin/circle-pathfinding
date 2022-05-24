@@ -380,4 +380,29 @@ TEST_CASE("tangent circle and circle")
 			}));
 		}
 	}
+
+	SUBCASE("test 6")
+	{
+		const Circle A(18.9990994611522,-13.2036074219616, 1);
+		const Circle B(0.4065104827304,-0.4580090951249, 2);
+
+		const std::vector<std::pair<Point, Point>> res = tangentLines(A, B);
+
+		const std::vector<std::pair<Point, Point>> expected = {
+			{ Point(18.3289399254399, -13.9458245038818), Point(1.7468295541569, 1.0264250687176) },
+			{ Point(18.4708264328064, -14.0526819814218), Point(-0.6500355739629, -2.1561582140481) },
+			{ Point(19.6005522629483, -12.4046990872875), Point(1.6094160863248, 1.1398075742264) },
+			{ Point(19.449719676513, -12.3108916656829), Point(-0.4947299479927, -2.2434406076855) }
+		};
+
+		REQUIRE(res.size() == expected.size());
+
+		for (const auto& expectedPair : expected)
+		{
+			CHECK(std::any_of(res.begin(), res.end(), [&](const std::pair<Point, Point>& p)->bool {
+				return (equal(p.first, expectedPair.first) && equal(p.second, expectedPair.second))
+					|| (equal(p.first, expectedPair.second) && equal(p.second, expectedPair.first));
+			}));
+		}
+	}
 }
