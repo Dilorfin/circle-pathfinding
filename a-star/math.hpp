@@ -60,12 +60,36 @@ inline std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)
 {
 	std::vector<std::pair<Point, Point>> result;
 
-	// straight
+	if (1 - std::abs(a.r - b.r) / distance(a.ctr, b.ctr) <= max_error)
+		return result;
 
-	if (distance(a.ctr, b.ctr) - (a.r + b.r) <= max_error)
+	// straight
+	double alpha = (a.ctr.y > b.ctr.y ? -1 : 1) * std::acos((b.ctr.x - a.ctr.x) / distance(a.ctr, b.ctr));
+	
+	double theta2 = std::acos((a.r - b.r) / distance(a.ctr, b.ctr));
+
+	double phi22 = alpha + theta2;
+	result.emplace_back(Point(a.ctr.x + a.r * std::cos(phi22), a.ctr.y + a.r * std::sin(phi22)), 
+		Point(b.ctr.x + b.r * std::cos(phi22), b.ctr.y + b.r * std::sin(phi22)));
+
+	double phi21 = alpha - theta2;
+	result.emplace_back(Point(a.ctr.x + a.r * std::cos(phi21), a.ctr.y + a.r * std::sin(phi21)),
+		Point(b.ctr.x + b.r * std::cos(phi21), b.ctr.y + b.r * std::sin(phi21)));
+
+	if (distance(a.ctr, b.ctr) - (a.r+b.r) <= max_error)
 		return result;
 
 	// diagonal
+
+	double theta1 = std::acos((a.r + b.r) / distance(a.ctr, b.ctr));
+	
+	double phi11 = theta1 + alpha;
+	result.emplace_back(Point(a.ctr.x + a.r * std::cos(phi11), a.ctr.y + a.r * std::sin(phi11)),
+		Point(b.ctr.x - b.r * std::cos(phi11), b.ctr.y - b.r * std::sin(phi11)));
+
+	double phi12 = alpha - theta1;
+	result.emplace_back(Point(a.ctr.x + a.r * std::cos(phi12), a.ctr.y + a.r * std::sin(phi12)),
+		Point(b.ctr.x - b.r * std::cos(phi12), b.ctr.y - b.r * std::sin(phi12)));
 
 	return result;
 }
