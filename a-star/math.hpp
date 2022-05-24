@@ -56,7 +56,7 @@ inline bool lineExists(const Point& a, const Point& b, const std::vector<Circle>
 	});
 }
 
-inline std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)
+inline std::vector<std::pair<Point, Point>> tangentLines(const Circle& a, const Circle& b)
 {
 	std::vector<std::pair<Point, Point>> result;
 
@@ -64,32 +64,40 @@ inline std::vector<std::pair<Point, Point>> tangentLines(Circle a, Circle b)
 		return result;
 
 	// straight
-	double alpha = (a.ctr.y > b.ctr.y ? -1 : 1) * std::acos((b.ctr.x - a.ctr.x) / distance(a.ctr, b.ctr));
-	
-	double theta2 = std::acos((a.r - b.r) / distance(a.ctr, b.ctr));
+	const double alpha = (a.ctr.y > b.ctr.y ? -1 : 1) * std::acos((b.ctr.x - a.ctr.x) / distance(a.ctr, b.ctr));
 
-	double phi22 = alpha + theta2;
-	result.emplace_back(Point(a.ctr.x + a.r * std::cos(phi22), a.ctr.y + a.r * std::sin(phi22)), 
-		Point(b.ctr.x + b.r * std::cos(phi22), b.ctr.y + b.r * std::sin(phi22)));
+	const double thetaStraight = std::acos((a.r - b.r) / distance(a.ctr, b.ctr));
 
-	double phi21 = alpha - theta2;
-	result.emplace_back(Point(a.ctr.x + a.r * std::cos(phi21), a.ctr.y + a.r * std::sin(phi21)),
-		Point(b.ctr.x + b.r * std::cos(phi21), b.ctr.y + b.r * std::sin(phi21)));
+	const double phiStraight0 = alpha + thetaStraight;
+	result.emplace_back(
+		Point(a.ctr.x + a.r * std::cos(phiStraight0), a.ctr.y + a.r * std::sin(phiStraight0)),
+		Point(b.ctr.x + b.r * std::cos(phiStraight0), b.ctr.y + b.r * std::sin(phiStraight0))
+	);
 
-	if (distance(a.ctr, b.ctr) - (a.r+b.r) <= max_error)
+	const double phiStraight1 = alpha - thetaStraight;
+	result.emplace_back(
+		Point(a.ctr.x + a.r * std::cos(phiStraight1), a.ctr.y + a.r * std::sin(phiStraight1)),
+		Point(b.ctr.x + b.r * std::cos(phiStraight1), b.ctr.y + b.r * std::sin(phiStraight1))
+	);
+
+	if (distance(a.ctr, b.ctr) - (a.r + b.r) <= max_error)
 		return result;
 
 	// diagonal
 
-	double theta1 = std::acos((a.r + b.r) / distance(a.ctr, b.ctr));
-	
-	double phi11 = theta1 + alpha;
-	result.emplace_back(Point(a.ctr.x + a.r * std::cos(phi11), a.ctr.y + a.r * std::sin(phi11)),
-		Point(b.ctr.x - b.r * std::cos(phi11), b.ctr.y - b.r * std::sin(phi11)));
+	const double thetaDiagonal = std::acos((a.r + b.r) / distance(a.ctr, b.ctr));
 
-	double phi12 = alpha - theta1;
-	result.emplace_back(Point(a.ctr.x + a.r * std::cos(phi12), a.ctr.y + a.r * std::sin(phi12)),
-		Point(b.ctr.x - b.r * std::cos(phi12), b.ctr.y - b.r * std::sin(phi12)));
+	const double phiDiagonal0 = alpha + thetaDiagonal;
+	result.emplace_back(
+		Point(a.ctr.x + a.r * std::cos(phiDiagonal0), a.ctr.y + a.r * std::sin(phiDiagonal0)),
+		Point(b.ctr.x - b.r * std::cos(phiDiagonal0), b.ctr.y - b.r * std::sin(phiDiagonal0))
+	);
+
+	const double phiDiagonal1 = alpha - thetaDiagonal;
+	result.emplace_back(
+		Point(a.ctr.x + a.r * std::cos(phiDiagonal1), a.ctr.y + a.r * std::sin(phiDiagonal1)),
+		Point(b.ctr.x - b.r * std::cos(phiDiagonal1), b.ctr.y - b.r * std::sin(phiDiagonal1))
+	);
 
 	return result;
 }
