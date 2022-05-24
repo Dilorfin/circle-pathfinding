@@ -7,8 +7,8 @@ project(${PROJECT_TITLE} CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-option(BUILD_TESTS "Building tests require doctest")
-option(BUILD_BENCHMARKS "Building tests require doctest")
+option(BUILD_TESTS "Building tests require doctest library")
+option(BUILD_BENCHMARKS "Building benhmarks require nanobench library")
 
 if(CMAKE_CONFIGURATION_TYPES)
 	set(CMAKE_CONFIGURATION_TYPES Debug Release)
@@ -47,6 +47,7 @@ endif(BUILD_TESTS)
 
 if(BUILD_BENCHMARKS)
 	find_package(nanobench REQUIRED)
+	message("-- Found nanobench in ${nanobench_DIR}")
 
 	add_subdirectory(.benchmarks)
 endif(BUILD_BENCHMARKS)
