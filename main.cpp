@@ -8,9 +8,9 @@
 
 int main() try
 {
-	Point startPoint { 10, 10 };
+	Point startPoint{ 10, 10 };
 	startPoint.color = sf::Color::Red;
-	Point endPoint { 100, 100 };
+	Point endPoint{ 100, 100 };
 	endPoint.color = sf::Color::Green;
 
 	const std::vector circles = {
@@ -22,7 +22,7 @@ int main() try
 	const double result = shortest_path_length(startPoint, endPoint, circles, graph);
 	std::cout << "shortest_path_length: " << result << std::endl;
 
-	sf::RenderWindow window(sf::VideoMode(864, 724), "Circle Path-finding", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode({ 864, 724 }), "Circle Path-finding", sf::Style::Close);
 	window.setKeyRepeatEnabled(false);
 	window.setFramerateLimit(60);
 
