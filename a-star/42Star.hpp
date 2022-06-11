@@ -38,6 +38,24 @@ public:
 		end(end)
 	{}
 
+	bool tryAddToOpenList(const Point& p, const Node& prev, double dist, int circle_index)
+	{
+		auto n = std::find(open.begin(), open.end(), p);
+		if (n != open.end())
+		{
+			n->g = std::min(prev.g + dist, n->g);
+			return false;
+		}
+		open.push_back({
+			graph.size(), 
+			prev.g + dist, 
+			distance(p, end),
+			(int)prev.ind, 
+			circle_index
+			});
+		return true;
+	}
+
 	std::vector<Point> getPath()
 	{
 		if (path.has_value())
@@ -58,13 +76,13 @@ public:
 				graph.addVertex(points[j]);
 				double distance_from_start = distance(start, points[j]);
 				open.push_back({
-					j + 1,
+					graph.size() - 1,
 					distance_from_start,
 					distance(end, points[j]),
 					0,
 					i
 					});
-				graph.setWeight(0, j + 1, distance_from_start);
+				graph.setWeight(0, graph.size() - 1, distance_from_start);
 			}
 		}
 		//1: put start in closed list
@@ -89,7 +107,6 @@ public:
 			if (find(closedCirclesIndicies.begin(), closedCirclesIndicies.end(), point.circle_index) == closedCirclesIndicies.end())
 			{
 				//5: build edges for tangents
-				//
 				for (int i = 0; i < circles.size(); i++)
 				{
 					
