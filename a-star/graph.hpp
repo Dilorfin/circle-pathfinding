@@ -25,7 +25,7 @@ public:
 				if (equal(this->vertexes[i], this->vertexes[j]))
 					throw std::exception("fuck this boolshit");
 			}
-			matrix.emplace_back(this->vertexes.size());
+			matrix.emplace_back(i + 1);
 		}
 	}
 
@@ -33,18 +33,17 @@ public:
 	{
 		assert(x != y);
 		assert(x < matrix.size());
-		assert(y < matrix[x].size());
+		assert(y < matrix.size());
 
-		matrix[x][y] = weight;
-		matrix[y][x] = weight;
+		matrix[std::max(x, y)][std::min(x, y)] = weight;
 	}
 
 	[[nodiscard]] double getWeight(const size_t x, const size_t y) const
 	{
 		assert(x < matrix.size());
-		assert(y < matrix[x].size());
+		assert(y < matrix.size());
 
-		return matrix[x][y];
+		return matrix[std::max(x, y)][std::min(x, y)];
 	}
 
 	[[nodiscard]] size_t size() const
@@ -94,12 +93,9 @@ private:
 		constexpr double none_weight = 0.0;
 		return weight <= none_weight;
 	}
+
 	void addVertex()
 	{
-		for (auto& row : matrix)
-		{
-			row.emplace_back();
-		}
 		matrix.emplace_back(vertexes.size());
 	}
 };
